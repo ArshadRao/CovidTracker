@@ -1,0 +1,129 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CountriesList component should render component properly 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "flex": 1,
+        "justifyContent": "center",
+      },
+      Object {
+        "flexDirection": "row",
+        "justifyContent": "space-around",
+        "padding": 10,
+      },
+    ]
+  }
+>
+  <ActivityIndicator
+    animating={true}
+    color="#0000ff"
+    hidesWhenStopped={true}
+    size="large"
+  />
+</View>
+`;
+
+exports[`CountriesList component should render component with Flatlist 1`] = `
+<ForwardRef(SafeAreaView)
+  style={
+    Object {
+      "backgroundColor": "white",
+      "flex": 1,
+    }
+  }
+>
+  <Header
+    title="Countries"
+  />
+  <SearchBar
+    label="Search.."
+    onSearch={[Function]}
+  />
+  <FlatList
+    ItemSeparatorComponent={[Function]}
+    ListEmptyComponent={
+      <View>
+        <Image
+          source={
+            Object {
+              "process": [Function],
+            }
+          }
+          style={
+            Object {
+              "height": 133.4,
+              "resizeMode": "contain",
+              "tintColor": "gray",
+              "width": 75,
+            }
+          }
+        />
+        <Text
+          style={
+            Object {
+              "color": "gray",
+              "textAlign": "center",
+            }
+          }
+        >
+          List is Empty
+        </Text>
+      </View>
+    }
+    contentContainerStyle={
+      Object {
+        "flexGrow": 1,
+      }
+    }
+    data={
+      Array [
+        Object {
+          "active": 106607,
+          "cases": 168941,
+          "continent": "Europe",
+          "country": "Italy",
+          "critical": 2936,
+          "deaths": 22170,
+          "population": 60390869,
+          "recovered": 40164,
+          "tests": 1178403,
+          "todayCases": 3786,
+          "todayDeaths": 525,
+          "updated": 1587140875474,
+        },
+        Object {
+          "active": 1207414,
+          "cases": 13973695,
+          "continent": "South America",
+          "country": "Brazil",
+          "critical": 8318,
+          "deaths": 374682,
+          "population": 213761802,
+          "recovered": 12391599,
+          "tests": 28600000,
+          "todayCases": 30624,
+          "todayDeaths": 1240,
+          "todayRecovered": 0,
+          "updated": 1618868527825,
+        },
+      ]
+    }
+    disableVirtualization={false}
+    horizontal={false}
+    initialNumToRender={10}
+    keyExtractor={[Function]}
+    maxToRenderPerBatch={10}
+    numColumns={1}
+    onEndReachedThreshold={2}
+    onRefresh={[Function]}
+    refreshing={false}
+    removeClippedSubviews={false}
+    renderItem={[Function]}
+    scrollEventThrottle={50}
+    updateCellsBatchingPeriod={50}
+    windowSize={21}
+  />
+</ForwardRef(SafeAreaView)>
+`;

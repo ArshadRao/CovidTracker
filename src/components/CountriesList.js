@@ -51,79 +51,69 @@ const styles = StyleSheet.create({
   },
 });
 
-export class PureCountriesList extends Component {
-  constructor() {
-    super();
-    this.state = {
-      loading: true,
-      dataList: [],
-      filteredData: [],
-    };
-  }
+export function PureCountriesList() {
+  const [loading, setLoading] = React.useState(true);
+  const [dataList, setDataList] = React.useState([]);
+  const [filteredData, setFilteredData] = React.useState([]);
 
-  fetchData = async () => {
-    this.setState({ loading: true });
+  const fetchData = async () => {
+    setLoading(true);
     const response = await axios.get('https://corona.lmao.ninja/v2/countries');
-    this.setState({
-      loading: false,
-      filteredData: response.data,
-      dataList: response.data,
+    setLoading(false);
+    setDataList(response.data);
+    setFilteredData(response.data);
+  };
+
+  React.useEffect(() => {
+    fetchData();
+  }, []);
+
+  const renderCountries = ({ item }) => <ListItem item={item} />;
+
+  const searchByName = (text) => {
+    const filteredList = dataList.filter((item) => {
+      const itemData = item.country.toUpperCase();
+      const textData = text.toUpperCase();
+
+      return itemData.indexOf(textData) > -1;
     });
+    setFilteredData(filteredList);
   };
 
-  componentDidMount() {
-    this.fetchData();
-  }
+  const renderSeparator = () => <View style={styles.separator} />;
 
-  renderCountries = ({ item }) => <ListItem item={item} />;
+  const renderEmpty = (
+    <View style={styles.center}>
+      <Image source={searchLogo} style={styles.noResultImage} />
+      <Text style={styles.noResultTitle}>List is Empty</Text>
+    </View>
+  );
 
-  searchByName = (text) => {
-    this.setState((prevState) => ({
-      filteredData: prevState.dataList.filter((item) => {
-        const itemData = item.country.toUpperCase();
-        const textData = text.toUpperCase();
-
-        return itemData.indexOf(textData) > -1;
-      }),
-    }));
-  };
-
-  renderSeparator = () => <View style={styles.separator} />;
-
-  render() {
-    const renderEmpty = (
-      <View style={styles.center}>
-        <Image source={searchLogo} style={styles.noResultImage} />
-        <Text style={styles.noResultTitle}>List is Empty</Text>
+  if (loading) {
+    return (
+      <View style={[styles.container, styles.horizontal]}>
+        <ActivityIndicator size="large" color="#0000ff" />
       </View>
     );
-
-    if (this.state.loading) {
-      return (
-        <View style={[styles.container, styles.horizontal]}>
-          <ActivityIndicator size="large" color="#0000ff" />
-        </View>
-      );
-    }
-
-    return (
-      <SafeAreaView style={styles.mainContainer}>
-        <Header title="Countries" />
-        <SearchBar label="Search.." onSearch={this.searchByName} />
-        <FlatList
-          data={this.state.filteredData}
-          refreshing={this.state.loading}
-          initialNumToRender={10}
-          onRefresh={this.fetchData}
-          renderItem={this.renderCountries}
-          ListEmptyComponent={renderEmpty}
-          contentContainerStyle={{ flexGrow: 1 }}
-          ItemSeparatorComponent={this.renderSeparator}
-          keyExtractor={(_, index) => index.toString()}
-        />
-      </SafeAreaView>
-    );
   }
+
+  return (
+    <SafeAreaView style={styles.mainContainer}>
+      <Header title="Countries" />
+      <SearchBar label="Search.." onSearch={searchByName} />
+      <FlatList
+        data={filteredData}
+        refreshing={loading}
+        initialNumToRender={10}
+        onRefresh={fetchData}
+        renderItem={renderCountries}
+        ListEmptyComponent={renderEmpty}
+        contentContainerStyle={{ flexGrow: 1 }}
+        ItemSeparatorComponent={renderSeparator}
+        keyExtractor={(_, index) => index.toString()}
+      />
+    </SafeAreaView>
+  );
 }
 
 export default PureCountriesList;
